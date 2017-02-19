@@ -1,7 +1,8 @@
 {
   "name": "@theatersoft/automation",
   "version": "1.0.0",
-  "description": "",
+  "description": "Bus service module for agents transforming events into actions",
+  "repository": "theatersoft/automation",
   "main": "dist/automation.js",
   "scripts": {
     "BUS": "BUS=`[ -f .bus ] && cat .bus` AUTH=`[ -f .auth ] && cat .auth`",
