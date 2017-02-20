@@ -5,6 +5,7 @@ import reducer from './reducer'
 import {bus} from '@theatersoft/bus'
 import {init, api} from './actions'
 import {log} from './log'
+import os from 'os'
 
 export class Automation {
     async start ({name, config: {remotedev = 'localhost'}}) {

@@ -25,7 +25,7 @@
     "redux-thunk": "^2.1.0"
   },
   "devDependencies": {
-    "@theatersoft/device": "^1.1.1",
+    "@theatersoft/device": "~1",
     "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-preset-babili": "0.0.3",
     "chokidar": "^1.6.1",
