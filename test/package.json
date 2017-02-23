@@ -4,8 +4,8 @@
   "author": "Rob Huehn <rob@theatersoft.com>",
   "scripts": {
     "BUS": "BUS=`[ -f .bus ] && cat .bus` AUTH=`[ -f .auth ] && cat .auth`",
-    "DEBUG": "npm run BUS -- node --inspect --debug-brk",
+    "DEBUG": "npm run BUS -- node --inspect-brk",
     "RUN": "npm run BUS -- node",
-    "test": "npm run BUS -- node --harmony-async-await test.js"
+    "test": "npm run BUS -- node test.js"
   }
 }

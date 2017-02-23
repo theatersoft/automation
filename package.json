@@ -4,10 +4,11 @@
   "description": "Bus service module for agents transforming events into actions",
   "repository": "theatersoft/automation",
   "main": "dist/automation.js",
+  "engines" : { "node" : ">=7.6.0" },
   "scripts": {
     "BUS": "BUS=`[ -f .bus ] && cat .bus` AUTH=`[ -f .auth ] && cat .auth`",
-    "RUN": "npm run BUS -- node --harmony-async-await",
-    "DEBUG": "npm run BUS -- node --harmony-async-await --inspect --debug-brk",
+    "RUN": "npm run BUS -- node",
+    "DEBUG": "npm run BUS -- node --inspect-brk",
     "build": "time -p node build.js && ls -l dist",
     "build:dist": "DIST=true npm run build",
     "link": "npm link; npm link @theatersoft/automation @theatersoft/bus @theatersoft/device",
