@@ -1,7 +1,7 @@
 {
   "name": "@theatersoft/automation",
-  "version": "1.0.0",
-  "description": "Bus service module for agents transforming events into actions",
+  "version": "1.0.1",
+  "description": "Bus service module for automation agents",
   "repository": "theatersoft/automation",
   "main": "dist/automation.js",
   "engines" : { "node" : ">=7.6.0" },
