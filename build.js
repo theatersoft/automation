@@ -5,8 +5,11 @@ const
     pkg = require('./package.json'),
     name = pkg.name.startsWith('@theatersoft') && pkg.name.slice(13),
     DIST = process.env.DIST === 'true',
+    deleteKey = (o, k) => (k && delete o[k], o),
+    dependencies = deleteKey(pkg.dist.dependencies, DIST && 'remote-redux-devtools'),
     path = require('path'),
     fs = require('fs'),
+    writeJson = (file, json) => fs.writeFileSync(file, JSON.stringify(json, null, '  '), 'utf-8'),
     copyright = `/*\n${fs.readFileSync('COPYRIGHT', 'utf8')}\n */`,
     rollup = require('rollup'),
     babel = require('rollup-plugin-babel'),
@@ -27,7 +30,7 @@ const targets = {
                     'redux',
                     'redux-thunk',
                     !DIST && 'remote-redux-devtools',
-                    ...Object.keys(pkg.dependencies)
+                    ...Object.keys(dependencies)
                 ],
                 plugins: [
                     babel({
@@ -77,13 +80,7 @@ const targets = {
     },
 
     package () {
-        const p = Object.assign({}, pkg, {
-            private: !DIST,
-            devDependencies: undefined,
-            distScripts: undefined,
-            scripts: pkg.distScripts
-        })
-        fs.writeFileSync('dist/package.json', JSON.stringify(p, null, '  '), 'utf-8')
+        writeJson('dist/package.json', Object.assign({}, pkg, {private: !DIST, dist: undefined}, pkg.dist))
         exec('sed -i "s|dist/||g" dist/package.json ')
         exec('cp LICENSE README.md start.js dist')
     },

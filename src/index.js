@@ -8,23 +8,17 @@ import {log} from './log'
 import os from 'os'
 
 export class Automation {
-    async start ({name, config: {remotedev = 'localhost'}}) {
-        const
-            {hosts} = await bus.proxy('Config').get(),
-            hostname = os.hostname(),
-            host = hosts.find(h => h.name === hostname)
-        this.root = host && host.root
+    async start ({name, config: {remotedev}}) {
         this.store = createStore(reducer, {devices: {}},
-            (composeWithDevTools({name, realtime: true, port: 6400, hostname: remotedev}) || (x => x))
+            (remotedev && composeWithDevTools({name, realtime: true, port: 6400, hostname: remotedev}) || (x => x))
             (applyMiddleware(thunk.withExtraArgument({})))
         )
-        //this.store.dispatch(init(hosts))
         this.name = name
         const obj = await bus.registerObject(this.name, this)
         obj.signal('start')
         this.store.subscribe(() => obj.signal('state', this.store.getState()))
-        const register = () => bus.proxy('Device').registerService(this.name)
-        bus.registerListener(`Device.start`, register)
+        const register = () => bus.proxy(name).registerService(this.name)
+        bus.registerListener(`${name}.start`, register)
         bus.on('reconnect', register)
         await register()
     }
