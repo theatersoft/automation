@@ -1,10 +1,16 @@
 import {Type} from '@theatersoft/device'
-import {INIT} from './actions'
+import {INIT, SET_DEVICES} from './actions'
+import {combineReducers} from 'redux'
 
-export default function reducer (state, action) {
-    const {type} = action
-    switch (type) {
-    case INIT:
-    }
+const Device = (state = {}, action) => {
+    if (action.type === SET_DEVICES)
+        return {devices: action.devices}
     return state
 }
+
+const devices = (state = {}) => state
+
+export default combineReducers({
+    devices,
+    Device
+})

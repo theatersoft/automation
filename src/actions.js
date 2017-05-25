@@ -10,3 +10,7 @@ export const
     API = 'API',
     api = action => (dispatch, getState) => {
     }
+
+export const
+    SET_DEVICES = 'SET_DEVICES',
+    setDevices = state => ({type: SET_DEVICES, ...state})
