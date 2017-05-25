@@ -25,13 +25,15 @@
     },
     "devDependencies": {},
     "scripts": {
-      "BUS": "BUS=`[ -f .bus ] && cat .bus` AUTH=`[ -f .auth ] && cat .auth`",
+      "BUS": "env $(cat /opt/theatersoft/.config/theatersoft/.bus | xargs)",
+      "DEVBUS": "env $(cat ~/.config/theatersoft/.bus | xargs)",
+      "DEVRUN": "npm run DEVBUS -- node",
       "RUN": "npm run BUS -- node",
-      "DEBUG": "npm run BUS -- node --inspect-brk",
-      "link": "npm link",
-      "bus:start": "npm explore @theatersoft/bus -- npm run start",
-      "start": "npm run RUN -- dist/start.js",
-      "debug": "npm run DEBUG -- dist/start.js"
+      "start": "npm run RUN -- start.js",
+      "start:dev": "npm run DEVRUN -- start.js",
+      "debug": "npm run BUS -- node --inspect-brk start.js",
+      "debug:dev": "npm run DEVBUS -- node --inspect-brk start.js",
+      "link": "npm link; npm link @theatersoft/automation @theatersoft/bus"
     }
   },
   "devDependencies": {
