@@ -17,8 +17,8 @@ export class Automation {
         const obj = await bus.registerObject(this.name, this)
         obj.signal('start')
         this.store.subscribe(() => obj.signal('state', this.store.getState()))
-        const register = () => bus.proxy(name).registerService(this.name)
-        bus.registerListener(`${name}.start`, register)
+        const register = () => bus.proxy('Device').registerService(this.name)
+        bus.registerListener(`Device.start`, register)
         bus.on('reconnect', register)
         await register()
     }
