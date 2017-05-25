@@ -9,7 +9,7 @@ require('@theatersoft/bus').bus.start()
                 export: 'Automation',
                 name: 'Automation',
                 config: {
-                    manager: true
+                    remotedev: 'localhost'
                 }
             },
             service = new (require(options.module)[options.export])()
