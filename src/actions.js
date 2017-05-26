@@ -12,5 +12,9 @@ export const
     }
 
 export const
-    SET_DEVICES = 'SET_DEVICES',
-    setDevices = state => ({type: SET_DEVICES, ...state})
+    SET_DEVICE = 'SET_DEVICE',
+    setDevice = state => ({type: SET_DEVICE, ...state})
+
+export const
+    SET_FEED = 'SET_FEED',
+    setFeed = value => ({type: SET_FEED, value})

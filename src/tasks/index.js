@@ -1,1 +1,1 @@
-export {MotionAlerts} from './motionAlerts'
+export {SensorAlerts} from './sensorAlerts'

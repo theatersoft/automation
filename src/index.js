@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'
 import {composeWithDevTools} from 'remote-redux-devtools'
 import reducer from './reducer'
 import {bus, proxy} from '@theatersoft/bus'
-import {init, api, setDevices} from './actions'
+import {init, api, setDevice} from './actions'
 import {log} from './log'
 import os from 'os'
 import * as Tasks from './tasks'
@@ -23,7 +23,7 @@ const dedup = (getState, _state = {}) => f => (_next = getState()) => {
 
 export class Automation {
     async start ({name, config: {remotedev}}) {
-        this.store = createStore(reducer, {devices: {feed: {name: 'test', value: 'message'}}},
+        this.store = createStore(reducer, {},
             (remotedev && composeWithDevTools({name, realtime: true, port: 6400, hostname: remotedev}) || (x => x))
             (applyMiddleware(thunk.withExtraArgument({})))
         )
@@ -37,7 +37,7 @@ export class Automation {
         await register()
 
         const
-            dispatchSetDevices = state => this.store.dispatch(setDevices(state))
+            dispatchSetDevices = state => this.store.dispatch(setDevice(state))
         bus.registerListener('Device.state', dispatchSetDevices)
         proxy('Device').getState().then(dispatchSetDevices)
 
