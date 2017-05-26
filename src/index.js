@@ -37,9 +37,9 @@ export class Automation {
         await register()
 
         const
-            dispatchSetDevices = state => this.store.dispatch(setDevice(state))
-        bus.registerListener('Device.state', dispatchSetDevices)
-        proxy('Device').getState().then(dispatchSetDevices)
+            dispatchSetDevice = state => this.store.dispatch(setDevice(state))
+        bus.registerListener('Device.state', dispatchSetDevice)
+        proxy('Device').getState().then(dispatchSetDevice)
 
         this.tasks = Object.entries(Tasks).map(([name, Task]) => {
             const task = new Task()
