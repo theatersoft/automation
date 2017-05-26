@@ -24,10 +24,10 @@ export class SensorAlerts {
                 let message
                 switch (type) {
                 case Type.MotionSensor:
-                    if (value) message = `${name} sensor detected motion`
+                    if (value) message = `${name} ACTIVE`
                     break
                 case Type.SecuritySensor:
-                    if (prevState[id] || value) message = `${name} sensor ${value ? 'open' : 'closed'}`
+                    if (prevState[id] || value) message = `${name} ${value ? 'OPEN' : 'CLOSED'}`
                     break
                 }
                 if (message) process.nextTick(() => store.dispatch(setFeed({message, id})))
