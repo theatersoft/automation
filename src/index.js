@@ -5,7 +5,6 @@ import reducer from './reducer'
 import {bus, proxy} from '@theatersoft/bus'
 import {init, api, setDevice} from './actions'
 import {log} from './log'
-import os from 'os'
 import * as Tasks from './tasks'
 
 const select = getState => ({devices} = getState()) => ({devices})

@@ -25,7 +25,6 @@ const targets = {
         return rollup.rollup({
                 entry: 'src/index.js',
                 external: [
-                    'os',
                     'child_process',
                     'redux',
                     'redux-thunk',
