@@ -21,16 +21,20 @@ export class SensorAlerts {
         store.subscribe(prev(select(store.getState))((state, prevState) => Object.values(diffs(state, prevState))
             .forEach(device => {
                 const {name, type, value, id} = device
-                let message
+                let status
                 switch (type) {
                 case Type.MotionSensor:
-                    if (value) message = `${name} ACTIVE`
+                    if (value) status = 'ACTIVE'
                     break
                 case Type.SecuritySensor:
-                    if (prevState[id] || value) message = `${name} ${value ? 'OPEN' : 'CLOSED'}`
+                    if (prevState[id] || value) status = value ? 'OPEN' : 'CLOSED'
                     break
                 }
-                if (message) process.nextTick(() => store.dispatch(setFeed({message, id})))
+                if (status) process.nextTick(() =>
+                    store.dispatch(setFeed({
+                        message: `${name} ${status}`,
+                        severity: value ? 1 : 2,
+                        id, type, name, status})))
             })
         ))
     }
