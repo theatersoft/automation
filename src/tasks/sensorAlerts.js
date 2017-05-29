@@ -31,10 +31,7 @@ export class SensorAlerts {
                     break
                 }
                 if (status) process.nextTick(() =>
-                    store.dispatch(setFeed({
-                        message: `${name} ${status}`,
-                        severity: value ? 1 : 2,
-                        id, type, name, status})))
+                    store.dispatch(setFeed({severity: value ? 1 : 2, id, type, name, status})))
             })
         ))
     }
