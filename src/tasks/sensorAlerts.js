@@ -20,7 +20,7 @@ export class SensorAlerts {
     start ({store}) {
         store.subscribe(prev(select(store.getState))((state, prevState) => Object.values(diffs(state, prevState))
             .forEach(device => {
-                const {name, type, value, id} = device
+                const {name, type, value, id, time} = device
                 let status
                 switch (type) {
                 case Type.MotionSensor:
@@ -31,7 +31,7 @@ export class SensorAlerts {
                     break
                 }
                 if (status) process.nextTick(() =>
-                    store.dispatch(setFeed({severity: value ? 1 : 2, id, type, name, status})))
+                    store.dispatch(setFeed({severity: value ? 1 : 2, id, type, name, status, time})))
             })
         ))
     }
