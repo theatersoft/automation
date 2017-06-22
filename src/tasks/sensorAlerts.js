@@ -9,10 +9,10 @@ const prev = (getState, _prev = {}) => f => (_state = getState()) => {
     _prev = _state
 }
 
-const equalValues = (a, b) => b && a.value === b.value
+const diffValues = (a, b) => b && a.value !== b.value
 
 const diffs = (state, prev) => Object.entries(state).reduce((o, [k,v]) => {
-    if (typeof v.value !== 'object' && !equalValues(v, prev[k])) o[k] = v
+    if (typeof v.value !== 'object' && diffValues(v, prev[k])) o[k] = v
     return o
 }, {})
 
@@ -27,7 +27,7 @@ export class SensorAlerts {
                     if (value) status = 'ACTIVE'
                     break
                 case Type.SecuritySensor:
-                    if (prevState[id] || value) status = value ? 'OPEN' : 'CLOSED'
+                    if (prevState[id].value !== undefined || value) status = value ? 'OPEN' : 'CLOSED'
                     break
                 }
                 if (status) process.nextTick(() =>
