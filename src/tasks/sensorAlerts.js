@@ -1,6 +1,7 @@
 import {log} from '../log'
 import {Type} from '@theatersoft/device'
 import {setFeed} from '../actions'
+import {bus, proxy} from '@theatersoft/bus'
 
 const select = getState => ({Device: {devices}} = getState()) => devices
 
@@ -30,8 +31,10 @@ export class SensorAlerts {
                     if (prevState[id].value !== undefined || value) status = value ? 'OPEN' : 'CLOSED'
                     break
                 }
-                if (status) process.nextTick(() =>
-                    store.dispatch(setFeed({severity: value ? 1 : 2, id, type, name, status, time})))
+                if (status) process.nextTick(() => {
+                    store.dispatch(setFeed({severity: value ? 1 : 2, id, type, name, status, time}))
+                    proxy('Push').sendPush(`${name} ${status}`)
+                })
             })
         ))
     }
