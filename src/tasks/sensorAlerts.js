@@ -33,7 +33,7 @@ export class SensorAlerts {
                 }
                 if (status) process.nextTick(() => {
                     store.dispatch(setFeed({severity: value ? 1 : 2, id, type, name, status, time}))
-                    proxy('Push').sendPush(`${name} ${status}`)
+                    proxy('Push').sendPush(`${name} ${status} at ${new Date(time).toLocaleTimeString('en-US', {hour: "numeric", minute: "numeric", second: "numeric"}).toLowerCase()}`)
                 })
             })
         ))
