@@ -33,7 +33,7 @@ export class SensorAlerts {
                 }
                 if (status) process.nextTick(() => {
                     store.dispatch(setFeed({severity: value ? 1 : 2, id, type, name, status, time}))
-                    proxy('Push').sendPush(JSON.stringify({
+                    proxy('Session').sendPush(JSON.stringify({
                         body: `${name} ${status} at ${new Date(time).toLocaleTimeString('en-US', {hour: 'numeric', minute: 'numeric', second: 'numeric'}).toLowerCase()}`,
                         icon: '/res/theatersoft-logo-round-accent.png',
                         tag: id,
