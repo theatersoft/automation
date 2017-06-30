@@ -13,7 +13,9 @@ export const
 
 export const
     SET_DEVICE = 'SET_DEVICE',
-    setDevice = state => ({type: SET_DEVICE, ...state})
+    setDevice = state => ({type: SET_DEVICE, ...state}),
+    SET_SETTINGS = 'SET_SETTINGS',
+    setSettings = settings => ({type: SET_SETTINGS, settings})
 
 let feedTimeout
 export const

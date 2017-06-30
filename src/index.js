@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'
 import {composeWithDevTools} from 'remote-redux-devtools'
 import reducer from './reducer'
 import {bus, proxy} from '@theatersoft/bus'
-import {init, api, setDevice} from './actions'
+import {init, api, setDevice, setSettings} from './actions'
 import {log} from './log'
 import * as Tasks from './tasks'
 
@@ -36,9 +36,12 @@ export class Automation {
         await register()
 
         const
-            dispatchSetDevice = state => this.store.dispatch(setDevice(state))
+            dispatchSetDevice = state => this.store.dispatch(setDevice(state)),
+            dispatchSettings = state => this.store.dispatch(setSettings(state))
         bus.registerListener('Device.state', dispatchSetDevice)
+        bus.registerListener('Settings.state', dispatchSettings)
         proxy('Device').getState().then(dispatchSetDevice)
+        proxy('Settings').getState().then(dispatchSettings)
 
         this.tasks = Object.entries(Tasks).map(([name, Task]) => {
             const task = new Task()
