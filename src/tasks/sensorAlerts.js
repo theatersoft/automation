@@ -33,12 +33,14 @@ export class SensorAlerts {
                 }
                 if (status) process.nextTick(() => {
                     store.dispatch(setFeed({severity: value ? 1 : 2, id, type, name, status, time}))
-                    proxy('Session').sendPush(JSON.stringify({
+                    if (store.getState().settings.armed) proxy('Session').sendPush(JSON.stringify({
                         body: `${name} ${status} at ${new Date(time).toLocaleTimeString('en-US', {hour: 'numeric', minute: 'numeric', second: 'numeric'}).toLowerCase()}`,
                         icon: '/res/theatersoft-logo-round-accent.png',
                         tag: id,
                         renotify: false
                     }))
+                    else
+                        log(`Not armed, not sending ${name} ${status}`)
                 })
             })
         ))
