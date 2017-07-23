@@ -14,9 +14,7 @@ const
         }
     })
 
-export const ServiceItems = (ComposedComponent, props) => connect(mapStateToProps, mapDispatchToProps)(class extends Component {
-    state = {add: false}
-
+export const ServiceSettings = (ComposedComponent, props) => connect(mapStateToProps, mapDispatchToProps)(class ServiceSettings extends Component {
     onClick = e => {
         const
             [, service, id] = /^(\w+)\.(\w+)$/.exec(e.currentTarget.dataset.id),
