@@ -84,7 +84,7 @@ const targets = {
             })
     },
 
-    async bundle () {
+    async client () {
         console.log('target bundle')
         const bundle = await rollup({
             entry: 'src/components/index.js',
@@ -176,18 +176,17 @@ const targets = {
 
     watch () {
         require('chokidar').watch([`${__dirname}/src`, `${__dirname}/*.js`])
-            .on('change', path => {
+            .on('change', async path => {
                 console.log(path)
-                targets.node().then(() => {
-                    targets.package()
-                    //exec('npm run start')
-                })
+                await targets.node()
+                await targets.client()
+                await targets.package()
             })
     },
 
     async all () {
         targets.node()
-        await targets.bundle()
+        await targets.client()
         targets.package()
     }
 }
