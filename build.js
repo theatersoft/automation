@@ -175,7 +175,7 @@ const targets = {
     },
 
     watch () {
-        require('chokidar').watch([`${__dirname}/src`, `${__dirname}/*.js`])
+        require('chokidar').watch(['src', '*.js'])
             .on('change', async path => {
                 console.log(path)
                 await targets.node()

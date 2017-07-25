@@ -7,17 +7,17 @@ const Settings = proxy('Settings')
 export const settingsAction = state => () => Settings.setState(state)
 
 const
-    mapStateToProps = p => p,
-    mapDispatchToProps = dispatch => ({
+    mapState = p => p,
+    mapDispatch = dispatch => ({
         dispatch: {
             settings: state => dispatch(settingsAction(state))
         }
     })
 
-export const ServiceSettings = (ComposedComponent, props) => connect(mapStateToProps, mapDispatchToProps)(class ServiceSettings extends Component {
+export const ServiceSettings = (ComposedComponent, props) => connect(mapState, mapDispatch)(class ServiceSettings extends Component {
     onClick = e => {
         const
-            [, service, id] = /^(\w+)\.(\w+)$/.exec(e.currentTarget.dataset.id),
+            [, service, id] = /^([^\.]+)\.([^]+)$/.exec(e.currentTarget.dataset.id),
             value = this.props[service][id]
         this.props.dispatch[service]({[id]: !value})
     }
