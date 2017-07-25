@@ -31,6 +31,10 @@ export class SensorAlerts {
                     break
                 }
                 if (status) process.nextTick(() => {
+                    if (getState().settings[`${id}.disabled`]) {
+                        log(`${name} is disabled, ignoring ${status}`)
+                        return
+                    }
                     dispatch(setFeed({severity: value ? 1 : 2, id, type, name, status, time}))
                     if (getState().settings.armed)
                         proxy('Session').sendPush(JSON.stringify({body: `${name} ${status} at ${_time(time)}`, icon: '/res/theatersoft-logo-round-accent.png', tag: id, renotify: false}))
