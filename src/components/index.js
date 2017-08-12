@@ -1,5 +1,5 @@
 import {h, Component} from 'preact'
-import {ListItem, Switch} from '@theatersoft/components'
+import {ListItem, Switch, Subheader} from '@theatersoft/components'
 import {proxy} from '@theatersoft/bus'
 import {connect} from './redux'
 
@@ -14,7 +14,7 @@ const
         }
     })
 
-export const ServiceSettings = (ComposedComponent, props) => connect(mapState, mapDispatch)(class ServiceSettings extends Component {
+export const ServiceSettings = (Composed, {service: {name}}) => connect(mapState, mapDispatch)(class ServiceSettings extends Component {
     onClick = e => {
         const
             [, service, id] = /^([^\.]+)\.([^]+)$/.exec(e.currentTarget.dataset.id),
@@ -31,9 +31,10 @@ export const ServiceSettings = (ComposedComponent, props) => connect(mapState, m
                     <Switch checked={value} data-id={id} onChange={this.onChange}/>
                 </ListItem>
         return (
-            <ComposedComponent {...props}>
+            <Composed>
+                <Subheader label={`${name} Service Settings`}/>
                 {item('Alarm armed', settings.armed, 'settings.armed')}
-            </ComposedComponent>
+            </Composed>
         )
     }
 })
