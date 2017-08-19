@@ -12,16 +12,18 @@ export const
     }
 
 export const
-    SET_DEVICE = 'SET_DEVICE',
-    setDevice = state => ({type: SET_DEVICE, ...state}),
+    SET_DEVICE_DEVICES = 'SET_DEVICE_DEVICES',
+    setDeviceDevices = ({devices}) => ({type: SET_DEVICE_DEVICES, devices}),
     SET_SETTINGS = 'SET_SETTINGS',
-    setSettings = settings => ({type: SET_SETTINGS, settings})
+    setSettings = settings => ({type: SET_SETTINGS, settings}),
+    DEVICE_SET = 'DEVICE_SET',
+    deviceSet = (id, value) => ({type: DEVICE_SET, device: {id, value}})
 
 let feedTimeout
 export const
-    SET_FEED = 'SET_FEED',
     setFeed = value => dispatch => {
+        const feedSet = (value, active) => deviceSet('feed', {...value, active})
         if (feedTimeout) clearTimeout(feedTimeout)
-        dispatch({type: SET_FEED, value: {...value, active: true}})
-        feedTimeout = setTimeout(() => dispatch({type: SET_FEED, value: {...value, active: false}}), 5000)
+        dispatch(feedSet(value, true))
+        feedTimeout = setTimeout(() => dispatch(feedSet(value, false)), 5000)
     }
