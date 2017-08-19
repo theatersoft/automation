@@ -32,6 +32,7 @@ export const ServiceSettings = (Composed, {service: {name}}) => connect(selectSe
         return (
             <Composed {...props}>
                 {item('Alarm armed', settings['Automation.armed'], 'settings.Automation.armed')}
+                {item('Away mode', settings['Automation.away'], 'settings.Automation.away')}
             </Composed>
         )
     }
