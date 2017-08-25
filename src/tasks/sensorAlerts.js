@@ -26,7 +26,7 @@ export class SensorAlerts {
                 case Type.MotionSensor:
                     if (value) status = 'ACTIVE'
                     break
-                case Type.SecuritySensor:
+                case Type.OpenSensor:
                     if (prevState[id].value !== undefined || value) status = value ? 'OPEN' : 'CLOSED'
                     break
                 }
