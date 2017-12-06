@@ -1,0 +1,8 @@
+/dist
+/node_modules
+/test/node_modules
+/test/pub/test.js
+/test/.*
+/_*
+*.log
+.idea
