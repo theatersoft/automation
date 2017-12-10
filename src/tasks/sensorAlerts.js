@@ -18,7 +18,7 @@ const
 
 export class SensorAlerts {
     start ({store: {subscribe, getState, dispatch}}) {
-        subscribe(prev(select(getState))((state, prevState) => Object.values(diffs(state, prevState))
+        this.unsubscribe = subscribe(prev(select(getState))((state, prevState) => Object.values(diffs(state, prevState))
             .forEach(device => {
                 const {name, type, value, id, time} = device
                 let status
@@ -43,5 +43,12 @@ export class SensorAlerts {
                 })
             })
         ))
+    }
+
+    stop () {
+        if (this.unsubscribe) {
+            this.unsubscribe()
+            delete this.unsubscribe
+        }
     }
 }

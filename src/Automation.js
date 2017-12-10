@@ -52,6 +52,7 @@ export class Automation {
     }
 
     stop () {
+        this.tasks.forEach(t => t.stop && t.stop())
         return bus.unregisterObject(this.name)
     }
 
