@@ -1,4 +1,4 @@
-import {log} from '../log'
+import {debug} from '../log'
 import {Type} from '@theatersoft/device'
 import {setFeed} from '../actions'
 import {bus, proxy} from '@theatersoft/bus'
@@ -32,14 +32,14 @@ export class SensorAlerts {
                 }
                 if (status) process.nextTick(() => {
                     if (getState().settings[`${id}.disabled`]) {
-                        log(`${name} is disabled, ignoring ${status}`)
+                        debug(`${name} is disabled, ignoring ${status}`)
                         return
                     }
                     dispatch(setFeed({severity: value ? 1 : 2, id, type, name, status, time}))
                     if (getState().settings['Automation.armed'])
                         proxy('Session').sendPush(JSON.stringify({body: `${name} ${status} at ${_time(time)}`, icon: '/res/theatersoft-logo-round-accent.png', tag: id, renotify: false}))
                     else
-                        log(`Not armed, not sending ${name} ${status}`)
+                        debug(`Not armed, not sending ${name} ${status}`)
                 })
             })
         ))
