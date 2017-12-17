@@ -20,6 +20,7 @@
   "dist": {
     "dependencies": {
       "@theatersoft/bus": "~1",
+      "@theatersoft/server": "~3",
       "redux": "^3.6.0",
       "redux-thunk": "^2.1.0",
       "remote-redux-devtools": "^0.5.7"
@@ -34,7 +35,7 @@
       "start:dev": "npm run DEVRUN -- start.js automation",
       "debug": "npm run BUS -- node --inspect-brk start.js automation",
       "debug:dev": "npm run DEVBUS -- node --inspect-brk start.js automation",
-      "link": "npm link --no-package-lock; npm link @theatersoft/automation @theatersoft/bus"
+      "link": "npm link --no-package-lock; npm link @theatersoft/automation @theatersoft/server @theatersoft/bus"
     }
   },
   "devDependencies": {
