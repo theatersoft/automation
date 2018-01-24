@@ -1,17 +1,9 @@
 import {Type, Interface, interfaceOfType} from '@theatersoft/device'
+import {log} from '../log'
 
 export const
     INIT = 'INIT',
-    init = () => ({type: INIT})
-
-import {log} from './log'
-
-export const
-    API = 'API',
-    api = action => (dispatch, getState) => {
-    }
-
-export const
+    init = () => ({type: INIT}),
     SET_DEVICE_DEVICES = 'SET_DEVICE_DEVICES',
     setDeviceDevices = ({devices}) => ({type: SET_DEVICE_DEVICES, devices}),
     SET_SETTINGS = 'SET_SETTINGS',
@@ -26,4 +18,9 @@ export const
         if (feedTimeout) clearTimeout(feedTimeout)
         dispatch(feedSet(value, true))
         feedTimeout = setTimeout(() => dispatch(feedSet(value, false)), 5000)
+    }
+
+export const
+    API = 'API',
+    api = action => (dispatch, getState) => {
     }
