@@ -1,5 +1,4 @@
-import {Type, Interface, interfaceOfType} from '@theatersoft/device'
-import {log} from '../log'
+import {Type, Interface, interfaceOfType, buttonActions} from '@theatersoft/device'
 
 export const
     INIT = 'INIT',
@@ -9,18 +8,23 @@ export const
     SET_SETTINGS = 'SET_SETTINGS',
     setSettings = settings => ({type: SET_SETTINGS, settings}),
     DEVICE_SET = 'DEVICE_SET',
-    deviceSet = (id, value) => ({type: DEVICE_SET, device: {id, value}})
+    deviceSet = device => ({type: DEVICE_SET, device})
 
 let feedTimeout
 export const
     setFeed = value => dispatch => {
-        const feedSet = (value, active) => deviceSet('feed', {...value, active})
+        const feedSet = (value, active) => deviceSet({id: 'feed', value: {...value, active}})
         if (feedTimeout) clearTimeout(feedTimeout)
         dispatch(feedSet(value, true))
         feedTimeout = setTimeout(() => dispatch(feedSet(value, false)), 5000)
     }
 
+import {Button} from '../Button'
 export const
     API = 'API',
-    api = action => (dispatch, getState) => {
+    api = action => () => {
+        const {id, type} = action
+        if (id && type === buttonActions.PRESS) {
+            Button.get(id).press()
+        }
     }

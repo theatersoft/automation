@@ -6,6 +6,7 @@ import {bus, proxy} from '@theatersoft/bus'
 import {init, api, setDeviceDevices, setSettings} from './actions'
 import {log} from './log'
 import * as Tasks from './tasks'
+import {Button} from './Button'
 
 const select = getState => ({devices} = getState()) => ({devices})
 
@@ -26,6 +27,7 @@ export class Automation {
             (remotedev && composeWithDevTools({name, realtime: true, port: 6400, hostname: remotedev}) || (x => x))
             (applyMiddleware(thunk.withExtraArgument({})))
         )
+        Button.store = this.store
         this.name = name
         const obj = await bus.registerObject(this.name, this)
         obj.signal('start')
