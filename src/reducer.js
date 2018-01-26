@@ -1,5 +1,5 @@
 import {Type} from '@theatersoft/device'
-import {INIT, SET_DEVICE_DEVICES, SET_SETTINGS, DEVICE_SET} from './actions'
+import {INIT, SET_DEVICE_DEVICES, SET_SETTINGS, DEVICE_SET, DEVICE_VALUE_SET} from './actions'
 import {log} from './log'
 
 export const reducer = (state, action) => {
@@ -25,6 +25,17 @@ export const reducer = (state, action) => {
         return {
             ...state, devices: {
                 ...state.devices, [device.id]: device
+            }
+        }
+    }
+    case DEVICE_VALUE_SET: {
+        log(action)
+        const
+            {id, value, time} = action,
+            device = state.devices[id]
+        return {
+            ...state, devices: {
+                ...state.devices, [id]: time ? {...device, value, time} : {...device, value}
             }
         }
     }
