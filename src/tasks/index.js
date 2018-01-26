@@ -1,2 +1,2 @@
-export {SensorAlerts} from './sensorAlerts'
-export {TestButton} from './testButton'
+export * from './sensorAlerts'
+export * from './testButton'
