@@ -33,6 +33,7 @@ export class Button extends EventEmitter {
         const id = this.id
         Button.store.dispatch(deviceValueSet(id, true))
         setTimeout(() => Button.store.dispatch(deviceValueSet(id, false)), 250)
+        this.emit('press')
     }
 
     dispose () {
