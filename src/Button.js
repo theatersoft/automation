@@ -7,10 +7,6 @@ export class Button extends EventEmitter {
     static buttons = new Map()
     static id = 0
 
-    static start () {}
-
-    static stop () {}
-
     static create (name) {
         const
             id = String(Button.id++),
@@ -37,6 +33,7 @@ export class Button extends EventEmitter {
     }
 
     dispose () {
-        Button.buttons.delete(name, this)
+        Button.buttons.delete(this.id)
+        // TODO dispose emitter
     }
 }
