@@ -1,8 +1,6 @@
 import {Type, Interface, interfaceOfType, buttonActions} from '@theatersoft/device'
 
 export const
-    INIT = 'INIT',
-    init = () => ({type: INIT}),
     SET_DEVICE_DEVICES = 'SET_DEVICE_DEVICES',
     setDeviceDevices = ({devices}) => ({type: SET_DEVICE_DEVICES, devices}),
     SET_SETTINGS = 'SET_SETTINGS',

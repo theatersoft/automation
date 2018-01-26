@@ -1,5 +1,5 @@
 import {Type} from '@theatersoft/device'
-import {INIT, SET_DEVICE_DEVICES, SET_SETTINGS, DEVICE_SET, DEVICE_VALUE_SET} from './actions'
+import {SET_DEVICE_DEVICES, SET_SETTINGS, DEVICE_SET, DEVICE_VALUE_SET} from './actions'
 import {log} from './log'
 
 export const reducer = (state, action) => {
