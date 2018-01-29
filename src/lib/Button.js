@@ -1,6 +1,6 @@
 import {EventEmitter} from '@theatersoft/bus'
 import {Type, buttonActions} from '@theatersoft/device'
-import {deviceSet, deviceValueSet} from './actions'
+import {deviceSet, deviceValueSet} from '../actions'
 
 export class Button extends EventEmitter {
     static store

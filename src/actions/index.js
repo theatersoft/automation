@@ -19,7 +19,7 @@ export const
         feedTimeout = setTimeout(() => dispatch(feedSet(value, false)), 5000)
     }
 
-import {Button} from '../Button'
+import {Button} from '../lib'
 export const
     API = 'API',
     api = action => () => {

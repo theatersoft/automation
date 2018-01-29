@@ -1,6 +1,6 @@
 import {Type, buttonActions} from '@theatersoft/device'
 import {bus, proxy} from '@theatersoft/bus'
-import {Button} from '../Button'
+import {Button} from '../lib'
 
 export class TheaterScene {
     start ({store: {subscribe, getState, dispatch}}) {

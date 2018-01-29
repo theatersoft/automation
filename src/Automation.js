@@ -6,7 +6,7 @@ import {bus, proxy} from '@theatersoft/bus'
 import {api, setDeviceDevices, setSettings} from './actions'
 import {log} from './log'
 import * as Tasks from './tasks'
-import {Button} from './Button'
+import {Button} from './lib'
 
 const select = getState => ({devices} = getState()) => ({devices})
 
@@ -23,11 +23,11 @@ const dedup = (getState, _state = {}) => f => (_next = getState()) => {
 
 export class Automation {
     async start ({name, config: {remotedev}}) {
-        this.store = createStore(reducer, initialState,
+        Button.store = this.store = createStore(
+            reducer, initialState,
             (remotedev && composeWithDevTools({name, realtime: true, port: 6400, hostname: remotedev}) || (x => x))
             (applyMiddleware(thunk.withExtraArgument({})))
         )
-        Button.store = this.store
         this.name = name
         const obj = await bus.registerObject(this.name, this)
         obj.signal('start')
