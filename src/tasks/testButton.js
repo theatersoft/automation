@@ -1,11 +1,11 @@
-import {Type} from '@theatersoft/device'
+import {Type, buttonActions} from '@theatersoft/device'
 import {bus, proxy} from '@theatersoft/bus'
 import {Button} from '../Button'
 
 export class TheaterScene {
     start ({store: {subscribe, getState, dispatch}}) {
         this.button = Button.create(this.constructor.name)
-        this.button.on('press', e => {
+        this.button.on(buttonActions.PRESS, e => {
             const Device = bus.proxy('Device')
             Object.entries({
                 'X10.A6': 'OFF',

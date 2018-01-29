@@ -1,5 +1,5 @@
 import {EventEmitter} from '@theatersoft/bus'
-import {Type} from '@theatersoft/device'
+import {Type, buttonActions} from '@theatersoft/device'
 import {deviceSet, deviceValueSet} from './actions'
 
 export class Button extends EventEmitter {
@@ -29,7 +29,7 @@ export class Button extends EventEmitter {
         const id = this.id
         Button.store.dispatch(deviceValueSet(id, true))
         setTimeout(() => Button.store.dispatch(deviceValueSet(id, false)), 250)
-        this.emit('press')
+        this.emit(buttonActions.PRESS)
     }
 
     dispose () {
