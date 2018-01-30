@@ -8,7 +8,9 @@ export const
     DEVICE_SET = 'DEVICE_SET',
     deviceSet = device => ({type: DEVICE_SET, device}),
     DEVICE_VALUE_SET = 'DEVICE_VALUE_SET',
-    deviceValueSet = (id, value) => ({type: DEVICE_VALUE_SET, id, value, time: Date.now()})
+    deviceValueSet = (id, value) => ({type: DEVICE_VALUE_SET, id, value, time: Date.now()}),
+    TASK_SET = 'TASK_SET',
+    taskSet = (id, value) => ({type: TASK_SET, id, value})
 
 let feedTimeout
 export const

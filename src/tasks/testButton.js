@@ -1,9 +1,9 @@
 import {Type, buttonActions} from '@theatersoft/device'
 import {bus, proxy} from '@theatersoft/bus'
-import {Button} from '../lib'
+import {Button, Task} from '../lib'
 
-export class TheaterScene {
-    start ({store: {subscribe, getState, dispatch}}) {
+export class TheaterScene extends Task {
+    start () {
         this.button = Button.create(this.constructor.name)
         this.button.on(buttonActions.PRESS, e => {
             const Device = bus.proxy('Device')
@@ -11,7 +11,7 @@ export class TheaterScene {
                 'X10.A6': 'OFF',
                 'ZWave.8': 'OFF',
                 'ZWave.14': 'OFF',
-                'Projector': 'ON'
+                // 'Projector': 'ON'
             }).forEach(([id, type]) => Device.dispatch({id, type}))
         })
     }

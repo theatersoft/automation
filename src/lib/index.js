@@ -1,5 +1,6 @@
 export * from './Button'
 export * from './Switch'
+export * from './Task'
 
 export const
     store = {},

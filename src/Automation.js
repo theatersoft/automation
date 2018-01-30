@@ -46,10 +46,10 @@ export class Automation {
         proxy('Device').getState().then(dispatchSetDevice)
         proxy('Settings').getState().then(dispatchSettings)
 
-        this.tasks = Object.entries(Tasks).map(([name, Task]) => {
-            const task = new Task()
-            log(`starting task ${name}`)
-            task.start(this)
+        this.tasks = Object.entries(Tasks).map(([id, Task]) => {
+            const task = new Task(id)
+            log(`starting task ${id}`)
+            task.ON()
             return task
         })
     }
