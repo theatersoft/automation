@@ -1,9 +1,9 @@
 import {EventEmitter} from '@theatersoft/bus'
 import {Type, switchActions} from '@theatersoft/device'
 import {deviceSet, deviceValueSet} from '../actions'
+import {store} from './'
 
 export class Switch extends EventEmitter {
-    static store
     static switches = new Map()
     static id = 0
 
@@ -12,7 +12,7 @@ export class Switch extends EventEmitter {
             id = String(Switch.id++),
             switch_ = new Switch({id, name})
         Switch.switches.set(id, switch_)
-        Switch.store.dispatch(deviceSet({id, name, type: Type.Switch, value: false}))
+        store.dispatch(deviceSet({id, name, type: Type.Switch, value: false}))
         return switch_
     }
 
@@ -32,13 +32,13 @@ export class Switch extends EventEmitter {
 
     ON (action) {
         const id = this.id
-        Switch.store.dispatch(deviceValueSet(id, true))
+        store.dispatch(deviceValueSet(id, true))
         this.emit('on', action)
     }
 
     OFF (action) {
         const id = this.id
-        Switch.store.dispatch(deviceValueSet(id, true))
+        store.dispatch(deviceValueSet(id, true))
         this.emit('off', action)
     }
 }
