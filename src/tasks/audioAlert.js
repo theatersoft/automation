@@ -20,7 +20,4 @@ export class AudioAlert extends Task {
                 })
             })
     }
-
-    stop () {
-    }
 }

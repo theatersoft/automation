@@ -22,7 +22,9 @@ export class Task {
     }
 
     OFF () {
-        store.dispatch(deviceValueSet(this.id, false))
-        this.stop()
+        if (this.stop) {
+            store.dispatch(deviceValueSet(this.id, false))
+            this.stop()
+        }
     }
 }
