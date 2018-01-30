@@ -1,4 +1,4 @@
-import {Type, Interface, interfaceOfType, PRESS, ON, OFF} from '@theatersoft/device'
+import {Type, Interface, interfaceOfType, PRESS, ON, OFF, serviceId} from '@theatersoft/device'
 
 export const
     SET_DEVICE_DEVICES = 'SET_DEVICE_DEVICES',
@@ -19,16 +19,13 @@ export const
         feedTimeout = setTimeout(() => dispatch(feedSet(value, false)), 5000)
     }
 
-import {Button, Switch} from '../lib'
+import {services} from '../lib'
 
 export const
     API = 'API',
     api = action => () => {
-        const {id, type} = action
-        if (id && type === PRESS) {
-            Button.get(id).PRESS(action)
-        }
-        if (id && (type === ON || type === OFF)) {
-            Switch.get(id)[type](action)
-        }
+        const
+            {id, type} = action,
+            [service] = serviceId(id)
+        services[service].get(id)[type](action)
     }
