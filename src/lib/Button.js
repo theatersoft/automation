@@ -5,11 +5,10 @@ import {store} from './'
 
 export class Button extends EventEmitter {
     static map = new Map()
-    static id = 0
 
     static create (name) {
         const
-            id = String(Button.id++),
+            id = `Button.${name}`,
             button = new Button({id, name})
         Button.map.set(id, button)
         store.dispatch(deviceSet({id, name, type: Type.Button, value: false}))

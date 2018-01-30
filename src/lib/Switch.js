@@ -5,11 +5,10 @@ import {store} from './'
 
 export class Switch extends EventEmitter {
     static switches = new Map()
-    static id = 0
 
     static create (name) {
         const
-            id = String(Switch.id++),
+            id = `Switch.${name}`,
             switch_ = new Switch({id, name})
         Switch.switches.set(id, switch_)
         store.dispatch(deviceSet({id, name, type: Type.Switch, value: false}))
