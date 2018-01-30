@@ -8,9 +8,7 @@ export const
     DEVICE_SET = 'DEVICE_SET',
     deviceSet = device => ({type: DEVICE_SET, device}),
     DEVICE_VALUE_SET = 'DEVICE_VALUE_SET',
-    deviceValueSet = (id, value) => ({type: DEVICE_VALUE_SET, id, value, time: Date.now()}),
-    TASK_SET = 'TASK_SET',
-    taskSet = (id, value) => ({type: TASK_SET, id, value})
+    deviceValueSet = (id, value) => ({type: DEVICE_VALUE_SET, id, value, time: Date.now()})
 
 let feedTimeout
 export const
@@ -22,6 +20,7 @@ export const
     }
 
 import {Button, Switch} from '../lib'
+
 export const
     API = 'API',
     api = action => () => {
