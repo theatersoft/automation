@@ -37,7 +37,7 @@ export class Switch extends EventEmitter {
 
     OFF (action) {
         const id = this.id
-        store.dispatch(deviceValueSet(id, true))
+        store.dispatch(deviceValueSet(id, false))
         this.emit('off', action)
     }
 }
