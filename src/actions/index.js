@@ -1,4 +1,4 @@
-import {Type, Interface, interfaceOfType, buttonActions} from '@theatersoft/device'
+import {Type, Interface, interfaceOfType, PRESS, ON, OFF} from '@theatersoft/device'
 
 export const
     SET_DEVICE_DEVICES = 'SET_DEVICE_DEVICES',
@@ -19,12 +19,15 @@ export const
         feedTimeout = setTimeout(() => dispatch(feedSet(value, false)), 5000)
     }
 
-import {Button} from '../lib'
+import {Button, Switch} from '../lib'
 export const
     API = 'API',
     api = action => () => {
         const {id, type} = action
-        if (id && type === buttonActions.PRESS) {
-            Button.get(id).press()
+        if (id && type === PRESS) {
+            Button.get(id).PRESS(action)
+        }
+        if (id && (type === ON || type === OFF)) {
+            Switch.get(id)[type](action)
         }
     }

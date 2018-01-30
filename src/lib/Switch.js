@@ -25,20 +25,20 @@ export class Switch extends EventEmitter {
         Object.assign(this, {id, name})
     }
 
-    on () {
-        const id = this.id
-        Switch.store.dispatch(deviceValueSet(id, true))
-        this.emit('on')
-    }
-
-    off () {
-        const id = this.id
-        Switch.store.dispatch(deviceValueSet(id, true))
-        this.emit('off')
-    }
-
     dispose () {
         Switch.switches.delete(this.id)
         // TODO dispose emitter
+    }
+
+    ON (action) {
+        const id = this.id
+        Switch.store.dispatch(deviceValueSet(id, true))
+        this.emit('on', action)
+    }
+
+    OFF (action) {
+        const id = this.id
+        Switch.store.dispatch(deviceValueSet(id, true))
+        this.emit('off', action)
     }
 }
