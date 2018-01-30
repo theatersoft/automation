@@ -4,19 +4,19 @@ import {deviceSet, deviceValueSet} from '../actions'
 import {store} from './'
 
 export class Switch extends EventEmitter {
-    static switches = new Map()
+    static map = new Map()
 
     static create (name) {
         const
             id = `Switch.${name}`,
             switch_ = new Switch({id, name})
-        Switch.switches.set(id, switch_)
+        Switch.map.set(id, switch_)
         store.dispatch(deviceSet({id, name, type: Type.Switch, value: false}))
         return switch_
     }
 
     static get (id) {
-        return Switch.switches.get(id)
+        return Switch.map.get(id)
     }
 
     constructor ({id, name}) {
@@ -25,7 +25,7 @@ export class Switch extends EventEmitter {
     }
 
     dispose () {
-        Switch.switches.delete(this.id)
+        Switch.map.delete(this.id)
         // TODO dispose emitter
     }
 
