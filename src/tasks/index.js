@@ -1,3 +1,3 @@
-export * from './sensorAlerts'
-export * from './testButton'
-export * from './audioAlert'
+export * from './SensorAlerts'
+export * from './TestButton'
+export * from './AudioAlert'
