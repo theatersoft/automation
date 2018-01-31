@@ -2,19 +2,10 @@ import {debug} from '../log'
 import {Type} from '@theatersoft/device'
 import {setFeed} from '../actions'
 import {bus, proxy} from '@theatersoft/bus'
-import {Task} from '../lib'
+import {Task, prev, diffs} from '@theatersoft/automation'
 
 const
     select = getState => ({Device: {devices}} = getState()) => devices,
-    prev = (getState, _prev = {}) => f => (_state = getState()) => {
-        f(_state, _prev)
-        _prev = _state
-    },
-    diffValues = (a, b) => b && a.value !== b.value,
-    diffs = (state, prev) => Object.entries(state).reduce((o, [k,v]) => {
-        if (typeof v.value !== 'object' && diffValues(v, prev[k])) o[k] = v
-        return o
-    }, {}),
     _time = t => new Date(t).toLocaleTimeString('en-US', {hour: 'numeric', minute: 'numeric', second: 'numeric'}).toLowerCase()
 
 export class SensorAlerts extends Task {
