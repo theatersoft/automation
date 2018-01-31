@@ -1,6 +1,7 @@
-import {Type, buttonActions} from '@theatersoft/device'
 import {bus, proxy} from '@theatersoft/bus'
-import {Button, Task} from '../lib'
+import {Type, buttonActions} from '@theatersoft/device'
+import {lib} from '@theatersoft/automation'
+const {Button, Task} = lib
 
 export class TheaterScene extends Task {
     start () {

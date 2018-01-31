@@ -1,8 +1,9 @@
-import {Type, switchActions} from '@theatersoft/device'
 import {bus, proxy} from '@theatersoft/bus'
-import {Switch, Task} from '../lib'
-
-const {ON, OFF} = switchActions
+import {Type, switchActions} from '@theatersoft/device'
+import {lib} from '@theatersoft/automation'
+const
+    {ON, OFF} = switchActions,
+    {Switch, Task} = lib
 
 export class AudioAlert extends Task {
     start () {
