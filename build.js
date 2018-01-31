@@ -22,7 +22,8 @@ const
     postcss = require('rollup-plugin-postcss'),
     stylus = require('stylus'),
     postcssModules = require('postcss-modules'),
-    cssExportMap = {}
+    cssExportMap = {},
+    alias = require('rollup-plugin-alias')
 
 const targets = {
     node () {
@@ -67,9 +68,8 @@ const targets = {
                     DIST && ignore(['remote-redux-devtools']),
                     DIST && pluginAsync(), // workaround Unexpected token in rollup-plugin-strip
                     DIST && strip({functions: ['composeWithDevTools']}),
-                    nodeResolve({
-                        jsnext: true
-                    })
+                    alias({'@theatersoft/automation': 'src/index.js'}),
+                    nodeResolve({jsnext: true})
                 ]
             })
             .then(bundle => {
