@@ -1,7 +1,6 @@
 import {bus, proxy} from '@theatersoft/bus'
 import {Type, buttonActions} from '@theatersoft/device'
-import {lib} from '@theatersoft/automation'
-const {Button, Task} = lib
+import {Button, Task} from '@theatersoft/automation'
 
 export class TheaterScene extends Task {
     start () {
@@ -15,8 +14,5 @@ export class TheaterScene extends Task {
                 // 'Projector': 'ON'
             }).forEach(([id, type]) => Device.dispatch({id, type}))
         })
-    }
-
-    stop () {
     }
 }

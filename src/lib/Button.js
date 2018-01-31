@@ -1,7 +1,7 @@
 import {EventEmitter} from '@theatersoft/bus'
 import {Type, PRESS} from '@theatersoft/device'
 import {deviceSet, deviceValueSet} from '../actions'
-import {store} from './'
+import {store} from '../store'
 
 export class Button extends EventEmitter {
     static map = new Map()

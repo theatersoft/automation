@@ -5,8 +5,10 @@ import {reducer, initialState} from './reducer'
 import {bus, proxy} from '@theatersoft/bus'
 import {api, setDeviceDevices, setSettings} from './actions'
 import {log} from './log'
+import {setStore} from './store'
+import {dedup} from './lib'
+
 import * as Tasks from './tasks'
-import {setStore, lib} from './lib'
 
 const select = getState => ({devices} = getState()) => ({devices})
 
@@ -21,7 +23,7 @@ export class Automation {
         this.name = name
         const obj = await bus.registerObject(this.name, this)
         obj.signal('start')
-        this.store.subscribe(lib.dedup(select(this.store.getState))(state => obj.signal('state', state)))
+        this.store.subscribe(dedup(select(this.store.getState))(state => obj.signal('state', state)))
         const register = () => bus.proxy('Device').registerService(this.name)
         bus.registerListener(`Device.start`, register)
         bus.on('reconnect', register)

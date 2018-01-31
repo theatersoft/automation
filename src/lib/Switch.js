@@ -1,7 +1,7 @@
 import {EventEmitter} from '@theatersoft/bus'
 import {Type, ON, OFF} from '@theatersoft/device'
 import {deviceSet, deviceValueSet} from '../actions'
-import {store} from './'
+import {store} from '../store'
 
 export class Switch extends EventEmitter {
     static map = new Map()

@@ -1,6 +1,6 @@
 import {Type, ON, OFF} from '@theatersoft/device'
 import {deviceSet, deviceValueSet} from '../actions'
-import {store} from './'
+import {store} from '../store'
 
 export class Task {
     static map = new Map()
