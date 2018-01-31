@@ -6,20 +6,9 @@ import {bus, proxy} from '@theatersoft/bus'
 import {api, setDeviceDevices, setSettings} from './actions'
 import {log} from './log'
 import * as Tasks from './tasks'
-import {setStore} from './lib'
+import {setStore, lib} from './lib'
 
 const select = getState => ({devices} = getState()) => ({devices})
-
-const equal = (a, b, _a = Object.keys(a), _b = Object.keys(b)) => (
-    _a.length === _b.length && !_a.find(k => !_b.includes(k) || a[k] !== b[k])
-)
-
-const dedup = (getState, _state = {}) => f => (_next = getState()) => {
-    if (!equal(_next, _state)) {
-        _state = _next
-        f(_next)
-    }
-}
 
 export class Automation {
     async start ({name, config: {remotedev}}) {
@@ -32,7 +21,7 @@ export class Automation {
         this.name = name
         const obj = await bus.registerObject(this.name, this)
         obj.signal('start')
-        this.store.subscribe(dedup(select(this.store.getState))(state => obj.signal('state', state)))
+        this.store.subscribe(lib.dedup(select(this.store.getState))(state => obj.signal('state', state)))
         const register = () => bus.proxy('Device').registerService(this.name)
         bus.registerListener(`Device.start`, register)
         bus.on('reconnect', register)
