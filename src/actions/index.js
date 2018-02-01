@@ -22,7 +22,6 @@ export const
 import {services} from '../lib'
 
 export const
-    API = 'API',
     api = action => () => {
         const
             {id, type} = action,
