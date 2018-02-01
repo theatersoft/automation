@@ -1,15 +1,8 @@
-import {Type, Interface, interfaceOfType, PRESS, ON, OFF, serviceId} from '@theatersoft/device'
+export * from './storeActions'
+export * from './apiActions'
+export * from './deviceActions'
 
-export const
-    SET_DEVICE_DEVICES = 'SET_DEVICE_DEVICES',
-    setDeviceDevices = ({devices}) => ({type: SET_DEVICE_DEVICES, devices}),
-    SET_SETTINGS = 'SET_SETTINGS',
-    setSettings = settings => ({type: SET_SETTINGS, settings}),
-    DEVICE_SET = 'DEVICE_SET',
-    deviceSet = device => ({type: DEVICE_SET, device}),
-    DEVICE_VALUE_SET = 'DEVICE_VALUE_SET',
-    deviceValueSet = (id, value) => ({type: DEVICE_VALUE_SET, id, value, time: Date.now()})
-
+import {deviceSet} from './storeActions'
 let feedTimeout
 export const
     setFeed = value => dispatch => {
@@ -17,14 +10,4 @@ export const
         if (feedTimeout) clearTimeout(feedTimeout)
         dispatch(feedSet(value, true))
         feedTimeout = setTimeout(() => dispatch(feedSet(value, false)), 5000)
-    }
-
-import {services} from '../lib'
-
-export const
-    api = action => () => {
-        const
-            {id, type} = action,
-            [service] = serviceId(id)
-        services[service].get(id)[type](action)
     }
