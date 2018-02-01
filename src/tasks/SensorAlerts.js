@@ -2,7 +2,7 @@ import {debug} from '../log'
 import {Type} from '@theatersoft/device'
 import {setFeed} from '../actions'
 import {bus, proxy} from '@theatersoft/bus'
-import {Task, prev, diffs} from '@theatersoft/automation'
+import {Task, prev, diffs, store} from '@theatersoft/automation'
 
 const
     select = getState => ({Device: {devices}} = getState()) => devices,
@@ -10,7 +10,7 @@ const
 
 export class SensorAlerts extends Task {
     start () {
-        const {subscribe, getState, dispatch} = this.store
+        const {subscribe, getState, dispatch} = store
         this.unsubscribe = subscribe(prev(select(getState))((state, prevState) => Object.values(diffs(state, prevState))
             .forEach(device => {
                 const {name, type, value, id, time} = device

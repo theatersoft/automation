@@ -10,7 +10,6 @@ export class Task {
     }
 
     constructor (name) {
-        this.store = store
         this.id = `Task.${name}`
         Task.map.set(this.id, this)
         store.dispatch(deviceSet({id: this.id, name, type: Type.Task}))
