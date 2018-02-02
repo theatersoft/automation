@@ -1,12 +1,30 @@
 import {Type, ON, OFF} from '@theatersoft/device'
 import {deviceSet, deviceValueSet} from '../actions'
 import {store} from '../store'
+import {log} from '../log'
 
 export class Task {
     static map = new Map()
 
     static get (id) {
         return Task.map.get(id)
+    }
+
+    static start (tasks) {
+        Object.entries(tasks).forEach(([id, Task]) => {
+            const task = new Task(id)
+            log(`starting task ${id}`)
+            task.ON()
+        })
+    }
+
+    static stop () {
+        Task.map.forEach(task => {
+            if (task.stop) {
+                log(`stopping task ${task.id}`)
+                task.stop()
+            }
+        })
     }
 
     constructor (name) {

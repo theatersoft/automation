@@ -4,11 +4,10 @@ import {composeWithDevTools} from 'remote-redux-devtools'
 import {reducer, initialState} from './reducer'
 import {bus, proxy} from '@theatersoft/bus'
 import {api, setDeviceDevices, setSettings} from './actions'
-import {log} from './log'
 import {setStore} from './store'
-import {dedup} from './lib'
+import {Task, dedup} from './lib'
 
-import * as Tasks from './tasks'
+import * as tasks from './tasks'
 
 const select = getState => ({devices} = getState()) => ({devices})
 
@@ -20,10 +19,12 @@ export class Automation {
             (applyMiddleware(thunk.withExtraArgument({})))
         )
         setStore(this.store)
+
         this.name = name
         const obj = await bus.registerObject(this.name, this)
         obj.signal('start')
         this.store.subscribe(dedup(select(this.store.getState))(state => obj.signal('state', state)))
+
         const register = () => bus.proxy('Device').registerService(this.name)
         bus.registerListener(`Device.start`, register)
         bus.on('reconnect', register)
@@ -37,16 +38,11 @@ export class Automation {
         proxy('Device').getState().then(dispatchSetDevice)
         proxy('Settings').getState().then(dispatchSettings)
 
-        this.tasks = Object.entries(Tasks).map(([id, Task]) => {
-            const task = new Task(id)
-            log(`starting task ${id}`)
-            task.ON()
-            return task
-        })
+        Task.start(tasks)
     }
 
     stop () {
-        this.tasks.forEach(t => t.stop && t.stop())
+        Task.stop()
         return bus.unregisterObject(this.name)
     }
 
