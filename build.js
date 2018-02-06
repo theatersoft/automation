@@ -17,7 +17,6 @@ const
     ignore = require('rollup-plugin-ignore'),
     nodeResolve = require('rollup-plugin-node-resolve'),
     strip = require('rollup-plugin-strip'),
-    pluginAsync = require('rollup-plugin-async'),
     sourcemaps = require('rollup-plugin-sourcemaps'),
     postcss = require('rollup-plugin-postcss'),
     stylus = require('stylus'),
@@ -30,64 +29,65 @@ const targets = {
         console.log('target node')
         exec('mkdir -p dist')
         return rollup({
-                entry: 'src/index.js',
-                external: [
-                    'child_process',
-                    'redux',
-                    'redux-thunk',
-                    !DIST && 'remote-redux-devtools',
-                    ...Object.keys(dependencies)
-                ],
-                plugins: [
-                    babel({
-                        babelrc: false,
-                        comments: !DIST,
-                        minified: DIST,
-                        //presets: [babili],
-                        plugins: [
-                            require("babel-plugin-transform-class-properties"),
-                            [require("babel-plugin-transform-object-rest-spread"), {useBuiltIns: true}]
-                        ].concat(DIST ? [
-                            require("babel-plugin-minify-constant-folding"),
-                            //require("babel-plugin-minify-dead-code-elimination"), // FAIL NodePath has been removed so is read-only
-                            require("babel-plugin-minify-flip-comparisons"),
-                            require("babel-plugin-minify-guarded-expressions"),
-                            require("babel-plugin-minify-infinity"),
-                            require("babel-plugin-minify-mangle-names"),
-                            require("babel-plugin-minify-replace"),
-                            //FAIL require("babel-plugin-minify-simplify"),
-                            require("babel-plugin-minify-type-constructors"),
-                            require("babel-plugin-transform-member-expression-literals"),
-                            require("babel-plugin-transform-merge-sibling-variables"),
-                            require("babel-plugin-transform-minify-booleans"),
-                            require("babel-plugin-transform-property-literals"),
-                            require("babel-plugin-transform-simplify-comparison-operators"),
-                            require("babel-plugin-transform-undefined-to-void")
-                        ] : [])
-                    }),
-                    DIST && ignore(['remote-redux-devtools']),
-                    DIST && pluginAsync(), // workaround Unexpected token in rollup-plugin-strip
-                    DIST && strip({functions: ['composeWithDevTools']}),
-                    alias({'@theatersoft/automation': 'src/index.js'}),
-                    nodeResolve({jsnext: true})
-                ]
-            })
+            input: 'src/index.js',
+            external: [
+                'child_process',
+                'redux',
+                'redux-thunk',
+                !DIST && 'remote-redux-devtools',
+                ...Object.keys(dependencies)
+            ],
+            plugins: [
+                babel({
+                    babelrc: false,
+                    comments: !DIST,
+                    minified: DIST,
+                    //presets: [babili],
+                    plugins: [
+                        require("babel-plugin-transform-class-properties"),
+                        [require("babel-plugin-transform-object-rest-spread"), {useBuiltIns: true}]
+                    ].concat(DIST ? [
+                        require("babel-plugin-minify-constant-folding"),
+                        //require("babel-plugin-minify-dead-code-elimination"), // FAIL NodePath has been removed so is read-only
+                        require("babel-plugin-minify-flip-comparisons"),
+                        require("babel-plugin-minify-guarded-expressions"),
+                        require("babel-plugin-minify-infinity"),
+                        require("babel-plugin-minify-mangle-names"),
+                        require("babel-plugin-minify-replace"),
+                        //FAIL require("babel-plugin-minify-simplify"),
+                        require("babel-plugin-minify-type-constructors"),
+                        require("babel-plugin-transform-member-expression-literals"),
+                        require("babel-plugin-transform-merge-sibling-variables"),
+                        require("babel-plugin-transform-minify-booleans"),
+                        require("babel-plugin-transform-property-literals"),
+                        require("babel-plugin-transform-simplify-comparison-operators"),
+                        require("babel-plugin-transform-undefined-to-void")
+                    ] : [])
+                }),
+                DIST && ignore(['remote-redux-devtools']),
+                DIST && strip({
+                    functions: ['composeWithDevTools']
+                }),
+                alias({'@theatersoft/automation': 'src/index.js'}),
+                nodeResolve({jsnext: true})
+            ]
+        })
             .then(bundle => {
                 bundle.write({
-                        dest: `dist/${name}.js`,
-                        format: 'cjs',
-                        moduleName: name,
-                        banner: copyright,
-                        sourceMap: DIST ? false : 'inline'
-                    })
+                    file: `dist/${name}.js`,
+                    format: 'cjs',
+                    name,
+                    banner: copyright,
+                    sourcemap: DIST ? false : 'inline'
+                })
                     .then(() => console.log(`wrote dist/${name}.js`))
             })
     },
 
     async client () {
-        console.log('target bundle')
+        console.log('target client')
         const bundle = await rollup({
-            entry: 'src/components/index.js',
+            input: 'src/components/index.js',
             external: [
                 'preact',
                 'preact-redux',
@@ -112,7 +112,7 @@ const targets = {
                     extract: `dist/${name}.css`,
                     plugins: [
                         postcssModules({
-                            getJSON(id, exportTokens) {cssExportMap[id] = exportTokens},
+                            getJSON (id, exportTokens) {cssExportMap[id] = exportTokens},
                             generateScopedName: '_[name]_[local]', // _[hash:2]
                         })
                     ],
@@ -155,13 +155,13 @@ const targets = {
             ]
         })
         await bundle.write({
-            dest: `dist/${name}.es.js`,
+            file: `dist/${name}.es.js`,
             format: 'es',
-            moduleName: name,
+            name,
             banner: copyright,
-            sourceMap: !DIST // bus sourcemap must be file to passthrough rollup consumers
+            sourcemap: !DIST // bus sourcemap must be file to passthrough rollup consumers
         })
-        console.log('... target bundle')
+        console.log('... target client')
     },
 
     package () {
