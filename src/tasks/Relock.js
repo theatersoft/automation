@@ -27,7 +27,7 @@ export class Relock extends Task {
         this.config = config //TODO
         const {subscribe, getState, dispatch} = store
         this.unsubscribe = subscribe(prev(select(getState, this.config))((state, prevState) => {
-                log(diffs(state, prevState))
+                // log(diffs(state, prevState))
             }
         ))
     }
