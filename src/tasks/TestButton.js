@@ -11,7 +11,7 @@ export class TheaterScene extends Task {
                 'X10.A6': 'OFF',
                 'ZWave.8': 'OFF',
                 'ZWave.14': 'OFF',
-                // 'Projector': 'ON'
+                'Projector': 'ON'
             }).forEach(([id, type]) => Device.dispatch({id, type}))
         })
     }
