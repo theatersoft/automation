@@ -10,11 +10,12 @@ export class Task {
         return Task.map.get(id)
     }
 
-    static start (tasks) {
+    static start (tasks, configs) {
         Object.entries(tasks).forEach(([id, Task]) => {
-            const task = new Task(id)
-            log(`starting task ${id}`)
-            task.ON()
+            const
+                config = typeof configs[id] === 'object' ? configs[id] : {enabled: configs[id]},
+                task = new Task(id, config)
+            if (config.enabled !== false) task.ON()
         })
     }
 
@@ -27,19 +28,22 @@ export class Task {
         })
     }
 
-    constructor (name) {
+    constructor (name, config) {
         this.id = `Task.${name}`
+        this.config = config
         Task.map.set(this.id, this)
         store.dispatch(deviceSet({id: this.id, name, type: Type.Task}))
     }
 
     ON () {
         store.dispatch(deviceValueSet(this.id, true))
+        log(`starting task ${this.id}`)
         this.start()
     }
 
     OFF () {
         if (this.stop) {
+            log(`stopping task ${this.id}`)
             store.dispatch(deviceValueSet(this.id, false))
             this.stop()
         }

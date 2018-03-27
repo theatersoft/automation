@@ -12,10 +12,10 @@ import * as tasks from './tasks'
 const select = getState => ({devices} = getState()) => ({devices})
 
 export class Automation {
-    async start ({name, config: {remotedev}}) {
+    async start ({name, config}) {
         this.store = createStore(
             reducer, initialState,
-            (remotedev && composeWithDevTools({name, realtime: true, port: 6400, hostname: remotedev}) || (x => x))
+            (config.remotedev && composeWithDevTools({name, realtime: true, port: 6400, hostname: config.remotedev}) || (x => x))
             (applyMiddleware(thunk.withExtraArgument({})))
         )
         setStore(this.store)
@@ -38,7 +38,7 @@ export class Automation {
         proxy('Device').getState().then(dispatchSetDevice)
         proxy('Settings').getState().then(dispatchSettings)
 
-        Task.start(tasks)
+        Task.start(tasks, config)
     }
 
     stop () {
