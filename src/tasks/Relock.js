@@ -12,15 +12,36 @@ const
             ...lock && {lock},
             ...door && {door}
         }
+    },
+    diff = f => (curr, prev) => {
+        const delta = diffs(curr, prev)
+        if (Object.values(delta).length) f(delta, curr)
     }
 
 export class Relock extends Task {
+    startTimer () {
+        log(`Relock in ${this.config.delay}s`)
+        this.timer = setTimeout(() => {
+            log('Relock')
+            bus.proxy('Device').dispatch({id: this.config.lock, type: ON})
+            delete this.timer
+        }, this.config.delay * 1000)
+    }
+
+    killTimer () {
+        if (this.timer) {
+            log('Relock cancelled')
+            clearTimeout(this.timer)
+            delete this.timer
+        }
+    }
+
     start () {
-        const {subscribe, getState, dispatch} = store
-        this.unsubscribe = subscribe(prev(select(getState, this.config))((state, prevState) => {
-                // log(diffs(state, prevState))
-            }
-        ))
+        const {subscribe, getState} = store
+        this.unsubscribe = subscribe(prev(select(getState, this.config))(diff((_, {lock, door}) => {
+            if (!lock.value && !door.value) this.startTimer()
+            else this.killTimer()
+        })))
     }
 
     stop () {
@@ -28,5 +49,6 @@ export class Relock extends Task {
             this.unsubscribe()
             delete this.unsubscribe
         }
+        this.killTimer()
     }
 }
