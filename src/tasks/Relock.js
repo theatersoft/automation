@@ -39,7 +39,7 @@ export class Relock extends Task {
     start () {
         const {subscribe, getState} = store
         this.unsubscribe = subscribe(prev(select(getState, this.config))(diff((_, {lock, door}) => {
-            if (!lock.value && !door.value) this.startTimer()
+            if (lock && door && lock.value === false && door.value === false) this.startTimer()
             else this.killTimer()
         })))
     }
