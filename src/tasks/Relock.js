@@ -1,5 +1,5 @@
 import {bus, log} from '@theatersoft/bus'
-import {ON} from '@theatersoft/device'
+import {on} from '@theatersoft/device'
 import {Task, prev, store} from '@theatersoft/automation'
 
 export class Relock extends Task {
@@ -7,7 +7,7 @@ export class Relock extends Task {
         log(`Relock in ${this.config.delay}s`)
         this.timer = setTimeout(() => {
             log('Relock')
-            bus.proxy('Device').dispatch({id: this.config.lock, type: ON})
+            bus.proxy('Device').dispatch(on(this.config.lock))
             delete this.timer
         }, this.config.delay * 1000)
     }
