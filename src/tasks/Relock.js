@@ -1,22 +1,6 @@
-import {bus, proxy, log} from '@theatersoft/bus'
-import {Type, ON, OFF} from '@theatersoft/device'
-import {Task, prev, diffs, store} from '@theatersoft/automation'
-
-const
-    select = (getState, config) => ({Device: {devices}} = getState()) => {
-        const {
-            [config.lock]: lock,
-            [config.door]: door
-        } = devices
-        return {
-            ...lock && {lock},
-            ...door && {door}
-        }
-    },
-    diff = f => (curr, prev) => {
-        const delta = diffs(curr, prev)
-        if (Object.values(delta).length) f(delta, curr)
-    }
+import {bus, log} from '@theatersoft/bus'
+import {ON} from '@theatersoft/device'
+import {Task, prev, store} from '@theatersoft/automation'
 
 export class Relock extends Task {
     startTimer () {
@@ -28,7 +12,7 @@ export class Relock extends Task {
         }, this.config.delay * 1000)
     }
 
-    killTimer () {
+    cancelTimer () {
         if (this.timer) {
             log('Relock cancelled')
             clearTimeout(this.timer)
@@ -37,11 +21,24 @@ export class Relock extends Task {
     }
 
     start () {
-        const {subscribe, getState} = store
-        this.unsubscribe = subscribe(prev(select(getState, this.config))(diff((_, {lock, door}) => {
-            if (lock && door && lock.value === false && door.value === false) this.startTimer()
-            else this.killTimer()
-        })))
+        const
+            select = (getState, config) => ({Device: {devices}} = getState()) => {
+                const {
+                    [config.lock]: lock,
+                    [config.door]: door
+                } = devices
+                return {
+                    ...lock && {lock: lock.value},
+                    ...door && {door: door.value}
+                }
+            }
+        this.unsubscribe = store.subscribe(prev(select(store.getState, this.config))((curr, prev) => {
+                if (prev.lock !== undefined && prev.door !== undefined && (prev.lock !== curr.lock || prev.door !== curr.door)) {
+                    if (curr.lock === false && curr.door === false) this.startTimer()
+                    else this.cancelTimer()
+                }
+            }
+        ))
     }
 
     stop () {
@@ -49,6 +46,6 @@ export class Relock extends Task {
             this.unsubscribe()
             delete this.unsubscribe
         }
-        this.killTimer()
+        this.cancelTimer()
     }
 }
