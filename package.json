@@ -31,10 +31,12 @@
       "DEVBUS": "env $(cat ~/.config/theatersoft/.bus | xargs)",
       "DEVRUN": "npm run DEVBUS -- node",
       "RUN": "npm run BUS -- node",
-      "start": "npm run RUN -- start.js automation",
-      "start:dev": "npm run DEVRUN -- start.js automation",
-      "debug": "npm run BUS -- node --inspect-brk start.js automation",
-      "debug:dev": "npm run DEVBUS -- node --inspect-brk start.js automation",
+      "start": "npm run RUN -- start.js",
+      "start Test": "npm run RUN -- start.js Test",
+      "start:dev": "npm run DEVRUN -- start.js",
+      "debug": "npm run BUS -- node --inspect-brk start.js",
+      "debug Test": "npm run BUS -- node --inspect-brk start.js Test",
+      "debug:dev": "npm run DEVBUS -- node --inspect-brk start.js",
       "link": "npm link --no-package-lock; npm link @theatersoft/automation @theatersoft/server @theatersoft/bus"
     }
   },
