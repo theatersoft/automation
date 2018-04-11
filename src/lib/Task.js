@@ -12,10 +12,13 @@ export class Task {
 
     static start (tasks, configs) {
         Object.entries(tasks).forEach(([id, Task]) => {
-            const
-                config = typeof configs[id] === 'object' ? configs[id] : {enabled: configs[id]},
-                task = new Task(id, config)
-            if (config.enabled !== false) task.ON()
+            const config = typeof configs[id] === 'boolean' ? {enabled: configs[id]}
+                : typeof configs[id] === 'object' ? {...configs[id], enabled: true}
+                    : undefined
+            if (config) {
+                const task = new Task(id, config)
+                if (config.enabled) task.ON()
+            }
         })
     }
 
