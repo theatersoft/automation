@@ -29,7 +29,7 @@ export class Button extends EventEmitter {
         // TODO dispose emitter
     }
 
-    PRESS (action) {
+    [PRESS] (action) {
         const id = this.id
         store.dispatch(deviceValueSet(id, true))
         setTimeout(() => store.dispatch(deviceValueSet(id, false)), 250)

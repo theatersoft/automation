@@ -29,13 +29,13 @@ export class Switch extends EventEmitter {
         // TODO dispose emitter
     }
 
-    ON (action) {
+    [ON] (action) {
         const id = this.id
         store.dispatch(deviceValueSet(id, true))
         this.emit(ON, action)
     }
 
-    OFF (action) {
+    [OFF] (action) {
         const id = this.id
         store.dispatch(deviceValueSet(id, false))
         this.emit(OFF, action)
