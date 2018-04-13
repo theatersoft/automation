@@ -38,13 +38,13 @@ export class Task {
         store.dispatch(deviceSet({id: this.id, name, type: Type.Task}))
     }
 
-    ON () {
+    [ON] () {
         store.dispatch(deviceValueSet(this.id, true))
         log(`starting task ${this.id}`)
         this.start()
     }
 
-    OFF () {
+    [OFF] () {
         if (this.stop) {
             log(`stopping task ${this.id}`)
             store.dispatch(deviceValueSet(this.id, false))
