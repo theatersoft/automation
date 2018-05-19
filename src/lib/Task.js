@@ -25,7 +25,7 @@ export class Task {
     static stop () {
         Task.map.forEach(task => {
             if (task.stop) {
-                log(`stopping task ${task.id}`)
+                log(`stop ${task.id}`)
                 task.stop()
             }
         })
@@ -40,13 +40,13 @@ export class Task {
 
     [ON] () {
         store.dispatch(deviceValueSet(this.id, true))
-        log(`starting task ${this.id}`)
+        log(`start ${this.id}`)
         this.start()
     }
 
     [OFF] () {
         if (this.stop) {
-            log(`stopping task ${this.id}`)
+            log(`stop ${this.id}`)
             store.dispatch(deviceValueSet(this.id, false))
             this.stop()
         }
